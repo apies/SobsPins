@@ -6,5 +6,5 @@ $(document).ready ->
 	overLay = ich.overLay(overModel.toJSON())
 	console.log overLay
 	$('body').append overLay
-	alert 'WTF'
+
 	

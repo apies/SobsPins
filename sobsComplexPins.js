@@ -5,7 +5,7 @@
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   $(document).ready(function() {
-    var OverLay, OverLayView, SobsPin, SobsPinView, SobsPins, overLay;
+    var OverLay, OverLayView, SobsPin, SobsPinView, SobsPins, overLay, pin, pinView, pins, _i, _len, _results;
     OverLay = (function(_super) {
 
       __extends(OverLay, _super);
@@ -19,7 +19,7 @@
       OverLay.prototype.defaults = {
         color: 'black',
         opacity: '0.5',
-        top: $(document).scrollTop()
+        top: 0
       };
 
       return OverLay;
@@ -42,7 +42,9 @@
 
       OverLayView.prototype.render = function() {
         var overLayTemplate, overModel;
-        overModel = new OverLay;
+        overModel = new OverLay({
+          top: $(document).scrollTop()
+        });
         overLayTemplate = ich.overLay(overModel.toJSON());
         $('body').append(overLayTemplate);
         return this;
@@ -61,8 +63,24 @@
         return SobsPin.__super__.constructor.apply(this, arguments);
       }
 
-      SobsPin.fetchPins = function() {
+      return SobsPin;
+
+    })(Backbone.Model);
+    SobsPins = (function(_super) {
+
+      __extends(SobsPins, _super);
+
+      SobsPins.name = 'SobsPins';
+
+      function SobsPins() {
+        return SobsPins.__super__.constructor.apply(this, arguments);
+      }
+
+      SobsPins.prototype.model = SobsPin;
+
+      SobsPins.fetchPins = function() {
         var pins;
+        console.log('Fetch Pins Being Called!');
         pins = [];
         $('.separator > a').each(function() {
           var sobsPin;
@@ -77,24 +95,9 @@
         return pins;
       };
 
-      return SobsPin;
-
-    }).call(this, Backbone.Model);
-    SobsPins = (function(_super) {
-
-      __extends(SobsPins, _super);
-
-      SobsPins.name = 'SobsPins';
-
-      function SobsPins() {
-        return SobsPins.__super__.constructor.apply(this, arguments);
-      }
-
-      SobsPins.prototype.model = SobsPin;
-
       return SobsPins;
 
-    })(Backbone.Collection);
+    }).call(this, Backbone.Collection);
     SobsPinView = (function(_super) {
 
       __extends(SobsPinView, _super);
@@ -106,14 +109,14 @@
         return SobsPinView.__super__.constructor.apply(this, arguments);
       }
 
-      SobsPinView.prototype.el = $('#overlayPin');
+      SobsPinView.prototype.tagName = 'li';
 
       SobsPinView.prototype.initialize = function() {};
 
       SobsPinView.prototype.render = function() {
         var imgSquareTemplate;
         imgSquareTemplate = ich.imgPinSquare(this.model.toJSON());
-        $(this.el).append(imgSquareTemplate);
+        $(this.el).html(imgSquareTemplate);
         return this;
       };
 
@@ -134,7 +137,19 @@
       return SobsPinView;
 
     })(Backbone.View);
-    return overLay = new OverLayView;
+    overLay = new OverLayView;
+    pins = SobsPins.fetchPins();
+    console.log(pins);
+    _results = [];
+    for (_i = 0, _len = pins.length; _i < _len; _i++) {
+      pin = pins[_i];
+      pinView = new SobsPinView({
+        model: pin
+      });
+      $('ul#pinList').append(pinView.render().el);
+      _results.push(console.log(pinView));
+    }
+    return _results;
   });
 
 }).call(this);
