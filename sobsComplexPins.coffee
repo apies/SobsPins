@@ -40,15 +40,16 @@ $(document).ready ->
 			$(@el).html(imgSquareTemplate)
 			@
 		pinMe: ->
-			alert 'PIN ME!'
+			alert JSON.stringify(@model.toJSON())
 			#$(@).effect("shake", {times: 3}, 300)
 			console.log $(@)
 		rockNRoll: ->
 			#$(@).effect("shake", {times: 3}, 300)
+			alert JSON.stringify(@model.toJSON())
 			console.log $(@)
 		events:
 			'click button' :'pinMe'
-			'hover' : 'rockNRoll'
+			#'hover' : 'rockNRoll'
 	
 	overLay = new OverLayView
 	pins = SobsPins.fetchPins()

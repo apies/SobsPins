@@ -136,17 +136,17 @@
       };
 
       SobsPinView.prototype.pinMe = function() {
-        alert('PIN ME!');
+        alert(JSON.stringify(this.model.toJSON()));
         return console.log($(this));
       };
 
       SobsPinView.prototype.rockNRoll = function() {
+        alert(JSON.stringify(this.model.toJSON()));
         return console.log($(this));
       };
 
       SobsPinView.prototype.events = {
-        'click button': 'pinMe',
-        'hover': 'rockNRoll'
+        'click button': 'pinMe'
       };
 
       return SobsPinView;
@@ -168,8 +168,6 @@
   });
 
 }).call(this);
-
-
 
 
 
