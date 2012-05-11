@@ -3,13 +3,13 @@
   <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.6/underscore-min.js"></script>
   <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.3.3/backbone-min.js"></script>
 <script src="https://raw.github.com/andyet/ICanHaz.js/master/ICanHaz.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js"></script>
 
 
 
 
 
 <script>
-
 
 
 
@@ -36,6 +36,10 @@
         opacity: '0.5',
         top: 0
       };
+
+      OverLay.prototype.height = 400;
+
+      OverLay.prototype.width = 400;
 
       return OverLay;
 
@@ -78,6 +82,13 @@
         return SobsPin.__super__.constructor.apply(this, arguments);
       }
 
+      SobsPin.sizeImage = function(width, height, newWidth) {
+        var newHeight, ratio;
+        console.log('running size function!');
+        ratio = height / width;
+        return newHeight = ratio * newWidth;
+      };
+
       return SobsPin;
 
     })(Backbone.Model);
@@ -99,12 +110,17 @@
         pins = [];
         $('.separator > a').each(function() {
           var sobsPin;
+          console.log("height:" + ($(this).children('img').height()));
+          console.log("width:" + ($(this).children('img').width()));
           sobsPin = new SobsPin({
             escapedUrl: encodeURIComponent(this.href),
             imgUrl: this.href,
             altText: "Alt Text Coming Soon!",
-            postUrl: "www.quietlikehorses.com"
+            postUrl: "www.quietlikehorses.com",
+            width: 150,
+            height: SobsPin.sizeImage($(this).children('img').height(), $(this).children('img').width(), 150)
           });
+          console.log(sobsPin);
           return pins.push(sobsPin);
         });
         return pins;
@@ -137,7 +153,11 @@
 
       SobsPinView.prototype.pinMe = function() {
         alert(JSON.stringify(this.model.toJSON()));
-        return console.log($(this));
+        $(this).children('img').effect("shake", {
+          times: 3
+        }, 300);
+        $(this).hide("explode", 1000);
+        return console.log($(this).children('img'));
       };
 
       SobsPinView.prototype.rockNRoll = function() {
@@ -153,6 +173,7 @@
 
     })(Backbone.View);
     overLay = new OverLayView;
+    console.log(SobsPin.sizeImage(234, 456, 645));
     pins = SobsPins.fetchPins();
     console.log(pins);
     _results = [];
@@ -173,13 +194,14 @@
 
 
 
+
 </script>
 
 
 
 <script id="imgPinSquare" type="text/html">
 <a href="http://pinterest.com/pin/create/button/?url={{postUrl}}&media={{escapedUrl}}&description={{altText}}">
-  <image border = "0" src="{{imgUrl}}" width="400" height="360"></image>
+  <image border = "0" src="{{imgUrl}}" width="{{height}}" height="{{width}}"></image>
 </a>
 <button class="pinMe" >Pin Me!</button>
 </script>

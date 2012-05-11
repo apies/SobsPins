@@ -22,6 +22,10 @@
         top: 0
       };
 
+      OverLay.prototype.height = 400;
+
+      OverLay.prototype.width = 400;
+
       return OverLay;
 
     })(Backbone.Model);
@@ -63,6 +67,13 @@
         return SobsPin.__super__.constructor.apply(this, arguments);
       }
 
+      SobsPin.sizeImage = function(width, height, newWidth) {
+        var newHeight, ratio;
+        console.log('running size function!');
+        ratio = height / width;
+        return newHeight = ratio * newWidth;
+      };
+
       return SobsPin;
 
     })(Backbone.Model);
@@ -84,12 +95,17 @@
         pins = [];
         $('.separator > a').each(function() {
           var sobsPin;
+          console.log("height:" + ($(this).children('img').height()));
+          console.log("width:" + ($(this).children('img').width()));
           sobsPin = new SobsPin({
             escapedUrl: encodeURIComponent(this.href),
             imgUrl: this.href,
             altText: "Alt Text Coming Soon!",
-            postUrl: "www.quietlikehorses.com"
+            postUrl: "www.quietlikehorses.com",
+            width: 150,
+            height: SobsPin.sizeImage($(this).children('img').height(), $(this).children('img').width(), 150)
           });
+          console.log(sobsPin);
           return pins.push(sobsPin);
         });
         return pins;
@@ -122,7 +138,11 @@
 
       SobsPinView.prototype.pinMe = function() {
         alert(JSON.stringify(this.model.toJSON()));
-        return console.log($(this));
+        $(this).children('img').effect("shake", {
+          times: 3
+        }, 300);
+        $(this).hide("explode", 1000);
+        return console.log($(this).children('img'));
       };
 
       SobsPinView.prototype.rockNRoll = function() {
@@ -138,6 +158,7 @@
 
     })(Backbone.View);
     overLay = new OverLayView;
+    console.log(SobsPin.sizeImage(234, 456, 645));
     pins = SobsPins.fetchPins();
     console.log(pins);
     _results = [];
