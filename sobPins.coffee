@@ -45,6 +45,7 @@ $(document).ready ->
 		
 	class SobsPinView extends Backbone.View
 		tagName: 'li'
+		className: 'photoPin'
 		initialize: ->
 			#@render()
 		render: =>
