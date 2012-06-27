@@ -53,14 +53,16 @@ $(document).ready ->
 			$(@el).html(imgSquareTemplate)
 			@
 		pinMe: ->
-			alert JSON.stringify(@model.toJSON())
-			$(@).children('img').effect("shake", {times: 3}, 300)
-			$(@).hide("explode", 1000);
-			console.log $(@).children('img')
+			console.log $(@el)
+			$(@el).effect("shake", {times: 3}, 300)
+			$(@el).hide("explode", 1000)
+			@
+
 		rockNRoll: ->
 			#$(@).effect("shake", {times: 3}, 300)
 			alert JSON.stringify(@model.toJSON())
 			console.log $(@)
+			@
 		events:
 			'click button' :'pinMe'
 			#'hover' : 'rockNRoll'
