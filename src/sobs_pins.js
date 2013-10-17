@@ -27,7 +27,7 @@
       },
       events: {
         "hover": "pinMe",
-        "click": "pinMe"
+        "click .pinMeBttn": "pinMe"
       },
       pinMe: function() {
         var pinterestLink;

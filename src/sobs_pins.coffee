@@ -24,7 +24,7 @@ window.SobsPinsApp = {}
 
 		events:
 			"hover": "pinMe"
-			"click": "pinMe"
+			"click .pinMeBttn": "pinMe"
 
 		pinMe: ->
 			pinterestLink = @model.pinterestLinkify()
