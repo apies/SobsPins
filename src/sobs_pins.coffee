@@ -8,7 +8,7 @@ window.SobsPinsApp = {}
 			newHeight = ratio * newWidth
 
 		pinterestLinkify: ->
-			"http://pinterest.com/pin/create/button/?url=#{@model.get('postUrl')}&media=#{@model.get('escapedUrl')}&description=#{@model.get('read quietlikehorses.com!')}"
+			"http://pinterest.com/pin/create/button/?url=#{@get('postUrl')}&media=#{@get('escapedUrl')}&description=#{@get('read quietlikehorses.com!')}"
 	)
 
 	SobsPinsApp.ImgPinView = Backbone.View.extend(
@@ -26,8 +26,10 @@ window.SobsPinsApp = {}
 			"hover": "pinMe"
 			"click": "pinMe"
 
-		pinMe: =>
-			alert('@model.pinterestLinkify()')
+		pinMe: ->
+			pinterestLink = @model.pinterestLinkify()
+			window.open(@model.pinterestLinkify())
+			false
 	)
 
 	#private var used to initialize pins array
