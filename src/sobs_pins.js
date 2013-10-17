@@ -3,12 +3,16 @@
   window.SobsPinsApp = {};
 
   (function() {
-    var pins;
+    var pins,
+      _this = this;
     SobsPinsApp.SobsPin = Backbone.Model.extend({
       sizeImage: function(width, height, newWidth) {
         var newHeight, ratio;
         ratio = height / width;
         return newHeight = ratio * newWidth;
+      },
+      pinterestLinkify: function() {
+        return "http://pinterest.com/pin/create/button/?url=" + (this.model.get('postUrl')) + "&media=" + (this.model.get('escapedUrl')) + "&description=" + (this.model.get('read quietlikehorses.com!'));
       }
     });
     SobsPinsApp.ImgPinView = Backbone.View.extend({
@@ -17,14 +21,24 @@
         source = $('#pinterestQLHImg').html();
         template = Handlebars.compile(source);
         context = this.model.toJSON();
+        $(this.el).html('');
         $(this.el).html(template(context));
+        this.delegateEvents();
         return this;
+      },
+      events: {
+        "hover": "pinMe",
+        "click": "pinMe"
+      },
+      pinMe: function() {
+        return alert('@model.pinterestLinkify()');
       }
     });
     pins = [];
     return SobsPinsApp.fetchPins = function() {
       return $('.separator > a').each(function() {
         var sobsPin;
+        console.log(this.href);
         sobsPin = new SobsPinsApp.SobsPin({
           escapedUrl: encodeURIComponent(this.href),
           imgUrl: this.href,

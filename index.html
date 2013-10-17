@@ -6,29 +6,28 @@
 
 
 <style type="text/css">
-  img.pinMeImg {
-    position: relative;
-    display: inline-block;
+/*  a.pinAnchor {
+    background-position: 50% 50% 50% 50%
+    background-repate
 
-  }
-
-  .pinMeBttn {
-    position: relative;
-    top: 0em;
- /*   top: 0;
-    left:0;*/
+  }*/
 
 
-  }
+
+
+  
+
+  /*<a class="pinAnchor" href="http://pinterest.com/pin/create/button/?url={{postUrl}}&media={{escapedUrl}}&description={{altText}}" target="_blank"></a>*/
 
 </style>
 
 <script id="pinterestQLHImg"  type="text/x-handlebars-template" >
-  <a  href="http://pinterest.com/pin/create/button/?url={{postUrl}}&media={{escapedUrl}}&description={{altText}}" target="_blank">
+ 
+
     <image class="pinMeImg" border = "0" src="{{imgUrl}}" width="{{width}}" height="{{height}}">
-      <image class="pinMeBttn" src="http://passets-lt.pinterest.com/images/about/buttons/big-p-button.png" width=50px height=50px >  </image>
-    </image>
-  </a>
+    <image class="pinMeBttn" src="http://passets-lt.pinterest.com/images/about/buttons/big-p-button.png" width=50px height=50px > 
+
+
 </script>
 
 <script id='mainApp' type='text/javascript'>
@@ -37,12 +36,16 @@
   window.SobsPinsApp = {};
 
   (function() {
-    var pins;
+    var pins,
+      _this = this;
     SobsPinsApp.SobsPin = Backbone.Model.extend({
       sizeImage: function(width, height, newWidth) {
         var newHeight, ratio;
         ratio = height / width;
         return newHeight = ratio * newWidth;
+      },
+      pinterestLinkify: function() {
+        return "http://pinterest.com/pin/create/button/?url=" + (this.model.get('postUrl')) + "&media=" + (this.model.get('escapedUrl')) + "&description=" + (this.model.get('read quietlikehorses.com!'));
       }
     });
     SobsPinsApp.ImgPinView = Backbone.View.extend({
@@ -51,14 +54,24 @@
         source = $('#pinterestQLHImg').html();
         template = Handlebars.compile(source);
         context = this.model.toJSON();
+        $(this.el).html('');
         $(this.el).html(template(context));
+        this.delegateEvents();
         return this;
+      },
+      events: {
+        "hover": "pinMe",
+        "click": "pinMe"
+      },
+      pinMe: function() {
+        return alert('@model.pinterestLinkify()');
       }
     });
     pins = [];
     return SobsPinsApp.fetchPins = function() {
       return $('.separator > a').each(function() {
         var sobsPin;
+        console.log(this.href);
         sobsPin = new SobsPinsApp.SobsPin({
           escapedUrl: encodeURIComponent(this.href),
           imgUrl: this.href,
