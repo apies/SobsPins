@@ -22,12 +22,12 @@
 </style>
 
 <script id="pinterestQLHImg"  type="text/x-handlebars-template" >
+  <div class="pinDiv" style="height='{{height}}'; background-image: url('{{imgUrl}}'), url('http://passets-lt.pinterest.com/images/about/buttons/big-p-button.png');">
+
+    <image class="pinMeBttn" src="http://passets-lt.pinterest.com/images/about/buttons/big-p-button.png" width="50px" height="50px" > 
+
+</div>
  
-
-    <image class="pinMeImg" border = "0" src="{{imgUrl}}" width="{{width}}" height="{{height}}">
-    <image class="pinMeBttn" src="http://passets-lt.pinterest.com/images/about/buttons/big-p-button.png" width=50px height=50px > 
-
-
 </script>
 
 <script id='mainApp' type='text/javascript'>
@@ -36,7 +36,6 @@
   window.SobsPinsApp = {};
 
   (function() {
-    var pins;
     SobsPinsApp.SobsPin = Backbone.Model.extend({
       sizeImage: function(width, height, newWidth) {
         var newHeight, ratio;
@@ -59,7 +58,7 @@
         return this;
       },
       events: {
-        "hover": "pinMe",
+        "hover .pinMeBttn": "pinMe",
         "click .pinMeBttn": "pinMe"
       },
       pinMe: function() {
@@ -69,7 +68,6 @@
         return false;
       }
     });
-    pins = [];
     return SobsPinsApp.fetchPins = function() {
       return $('.separator > a').each(function() {
         var sobsPin;

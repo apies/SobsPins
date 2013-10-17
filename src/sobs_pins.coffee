@@ -23,7 +23,7 @@ window.SobsPinsApp = {}
 			@
 
 		events:
-			"hover": "pinMe"
+			"hover .pinMeBttn": "pinMe"
 			"click .pinMeBttn": "pinMe"
 
 		pinMe: ->
@@ -32,8 +32,6 @@ window.SobsPinsApp = {}
 			false
 	)
 
-	#private var used to initialize pins array
-	pins = []
 	SobsPinsApp.fetchPins = ->
 		$('.separator > a').each(->
 			console.log @href

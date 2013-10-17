@@ -3,7 +3,6 @@
   window.SobsPinsApp = {};
 
   (function() {
-    var pins;
     SobsPinsApp.SobsPin = Backbone.Model.extend({
       sizeImage: function(width, height, newWidth) {
         var newHeight, ratio;
@@ -26,7 +25,7 @@
         return this;
       },
       events: {
-        "hover": "pinMe",
+        "hover .pinMeBttn": "pinMe",
         "click .pinMeBttn": "pinMe"
       },
       pinMe: function() {
@@ -36,7 +35,6 @@
         return false;
       }
     });
-    pins = [];
     return SobsPinsApp.fetchPins = function() {
       return $('.separator > a').each(function() {
         var sobsPin;
